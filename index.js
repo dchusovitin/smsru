@@ -33,20 +33,21 @@ var merge = function () {
 
 SmsRu.prototype.curl = function (method, params, callback) {
     var url = 'http://sms.ru' + method + '?' + formatParams(merge(this.auth, params));
-    http.get(url, function(res){
-        res.setEncoding('utf8');
-        var body = '';
-        res.on('data', function (chunk) {
-            body += chunk;
-        });
-        res.once('end', function () {
-            var chunked = body.split("\n");
-            callback(null, parseInt(chunked[0], 10), chunked, body);
-        });
-        res.once('error', function (err) {
+    http
+        .get(url, function(res){
+            res.setEncoding('utf8');
+            var body = '';
+            res.on('data', function (chunk) {
+                body += chunk;
+            });
+            res.once('end', function () {
+                var chunked = body.split("\n");
+                callback(null, parseInt(chunked[0], 10), chunked, body);
+            });
+        })
+        .once('error', function (err) {
             callback(err);
         });
-    });
 };
 
 
