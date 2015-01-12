@@ -40,7 +40,8 @@ SmsRu.prototype.curl = function (method, params, callback) {
             body += chunk;
         });
         res.once('end', function () {
-            callback(null, body);
+            var chunked = body.split("\n");
+            callback(null, parseInt(chunked[0], 10), chunked, body);
         });
         res.once('error', function (err) {
             callback(err);
