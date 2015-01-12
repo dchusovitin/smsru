@@ -39,10 +39,10 @@ SmsRu.prototype.curl = function (method, params, callback) {
         res.on('data', function (chunk) {
             body += chunk;
         });
-        res.on('end', function () {
+        res.once('end', function () {
             callback(null, body);
         });
-        res.on('error', function (err) {
+        res.once('error', function (err) {
             callback(err);
         });
     });
